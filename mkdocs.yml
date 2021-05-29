@@ -54,7 +54,9 @@ extra:
 
 nav:
   - Home: index.md
-  - Getting started:
-    - Installation: engine.md
+  - Play: play.md
+  - Setup:
+    - Installation: engine/engine.md
+    - Timing of a round: engine/round.md
   - Create a Service:
-    - Create a Service: new-service.md
+    - Getting started: new-service.md
