@@ -1,3 +1,99 @@
 site_name: Enowars Documentation
+site_author: Enowars Team
+
+repo_url: https://github.com/enowars/EnoEngine
+site_description: >-
+  Create a branded static site from a set of Markdown files to host the
+  documentation of your Open Source or commercial project – customizable,
+  searchable, mobile-friendly, 40+ languages
+
+
 theme:
   name: material
+  custom_dir: overrides
+
+  features:
+    - navigation.instant
+    - navigation.sections
+    - navigation.tabs
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - scheme: slate
+      primary: red
+      accent: red
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+
+  favicon: assets/favicon.png
+  icon:
+    logo: logo
+
+plugins:
+  - search
+  - minify:
+      minify_html: true
+
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/enowars/
+    - icon: tu-berlin-logo
+      link: https://www.agrs.tu-berlin.de/v_menue/ag_rechnersicherheit/
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/ENOFLAG
+    - icon: ctf-time-logo
+      link: https://ctftime.org/ctf/24
+
+
+# markdown_extensions:
+#   - admonition
+#   - abbr
+#   - attr_list
+#   - def_list
+#   - footnotes
+#   - meta
+#   - md_in_html
+#   - toc:
+#       permalink: true
+#   - pymdownx.arithmatex:
+#       generic: true
+#   - pymdownx.betterem:
+#       smart_enable: all
+#   - pymdownx.caret
+#   - pymdownx.critic
+#   - pymdownx.details
+#   - pymdownx.emoji:
+#       emoji_index: !!python/name:materialx.emoji.twemoji
+#       emoji_generator: !!python/name:materialx.emoji.to_svg
+#   - pymdownx.highlight
+#   - pymdownx.inlinehilite
+#   - pymdownx.keys
+#   - pymdownx.magiclink:
+#       repo_url_shorthand: true
+#       user: squidfunk
+#       repo: mkdocs-material
+#   - pymdownx.mark
+#   - pymdownx.smartsymbols
+#   - pymdownx.superfences:
+#       custom_fences:
+#         - name: mermaid
+#           class: mermaid
+#           format: !!python/name:pymdownx.superfences.fence_code_format
+#   - pymdownx.tabbed
+#   - pymdownx.tasklist:
+#       custom_checkbox: true
+#   - pymdownx.tilde
+
+nav:
+  - Home: index.md
+  - Getting started:
+    - Installation: engine.md
+  - Create a Service:
+    - Create a Service: new-service.md
