@@ -31,7 +31,7 @@ theme:
 
   favicon: assets/favicon.png
   icon:
-    logo: logo
+    logo: fontawesome/solid/flag
 
 plugins:
   - search
@@ -51,12 +51,52 @@ extra:
     - icon: ctf-time-logo
       link: https://ctftime.org/ctf/24
 
+markdown_extensions:
+  - admonition
+  - abbr
+  - pymdownx.snippets
+  - attr_list
+  - def_list
+  - footnotes
+  - meta
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: squidfunk
+      repo: mkdocs-material
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  # Already done by mermaid2 (and not yet ready in mkdocs-material)
+  # - pymdownx.superfences:
+  #     custom_fences:
+  #       - name: mermaid
+  #         class: mermaid
+  #         format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
 
 nav:
   - Home: index.md
   - Play: play.md
   - Setup:
-    - Installation: engine/engine.md
-    - Timing of a round: engine/round.md
+      - Installation: engine/engine.md
+      - Timing of a round: engine/round.md
   - Create a Service:
-    - Getting started: new-service.md
+      - Getting started: new-service.md
