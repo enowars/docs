@@ -54,22 +54,3 @@ gantt
 
 ```
 
-Every task may only run for the given amount of time.
-
-putflag ->
-getflag ->
-putnoise ->
-getnoise ->
-havoc ->
-exploit -> Run exploits in CI/CD
-
-Divide round in 4 quarters
-• During Q1:
-• start storing new flags
-• start checks for old flags
-• During Q2:
-• start checks for old flags
-• During Q3:
-• start checking new flags
-• start checks for old flags
-○ every task may run for 1/4th of the round

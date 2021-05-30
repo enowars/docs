@@ -81,10 +81,12 @@ markdown_extensions:
       repo: mkdocs-material
   - pymdownx.mark
   - pymdownx.smartsymbols
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid_custom
   # Already done by mermaid2 (and not yet ready in mkdocs-material)
-  # - pymdownx.superfences:
-  #     custom_fences:
   #       - name: mermaid
   #         class: mermaid
   #         format: !!python/name:pymdownx.superfences.fence_code_format
@@ -92,6 +94,10 @@ markdown_extensions:
   - pymdownx.tasklist:
       custom_checkbox: true
   - pymdownx.tilde
+
+# Mermaid 2 Custom loader
+extra_javascript:
+  - js/mermaid-loader.js
 
 nav:
   - Home: index.md
