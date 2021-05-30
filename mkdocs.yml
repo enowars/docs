@@ -107,6 +107,7 @@ nav:
       - Timing of a round: engine/round.md
   - Create a Service:
       - Getting started: service/getting-started.md
+      - Tenets: service/tenets.md
       - Service Development: service/service.md
       - Checker Development:
           - General: service/checker/checker.md
