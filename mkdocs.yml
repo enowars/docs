@@ -81,6 +81,7 @@ markdown_extensions:
       repo: mkdocs-material
   - pymdownx.mark
   - pymdownx.smartsymbols
+  - pymdownx.superfences
   # Already done by mermaid2 (and not yet ready in mkdocs-material)
   # - pymdownx.superfences:
   #     custom_fences:
@@ -99,4 +100,8 @@ nav:
       - Installation: engine/engine.md
       - Timing of a round: engine/round.md
   - Create a Service:
-      - Getting started: new-service.md
+      - Getting started: service/getting-started.md
+      - Service Development: service/service.md
+      - Checker Development:
+          - General: service/checker/checker.md
+          - Python Checker: service/checker/checker-python.md
