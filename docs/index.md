@@ -1,27 +1,23 @@
 # Welcome to Enowars
 
-Enowars is an Engine for running A/D CTF events.
+Enowars is a Framework for running A/D CTF events.
 
 ## Overview
 
-[Specification](https://github.com/enowars/specification)
+### Infrastructure
 
-[Engine](https://github.com/enowars/EnoEngine)
-Consists of EnoELK, EnoEngine, EnoLauncher
+Everything is running in the cloud thats why we have s
+### Services and Checkers
 
-Eno ELK consists of
-Elasticsearch (search engine, noSQL)
+> Previous [Services](https://github.com/enowars?q=enowars) can be found on our [Github Page](https://github.com/enowars?q=enowars)
 
-- Logstash (ingest and transform data)
-- Kibana (webfrontend)
-
-Eno Moloch
-
-[ScoreBoard](https://github.com/enowars/EnoLandingPage)
-
-[Services](https://github.com/enowars?q=enowars)
+To develop a new one follow our [guide](service/getting-started.md). 
 
 [EnoChecker](https://github.com/enowars/enochecker)
+
+
+
+
 
 
 
@@ -33,33 +29,30 @@ graph TB
     EnoELK
     database[(Database)]
     router{Router}
-    checker1[[Checker 1]]
-    checker2[[Checker 2]]
-    checker3[[Checker 3]]
+    checker1[[Checker 1..N]]
 
 
-    EnoLauncher -->|report| database
-    EnoFlagSink --> database
+    router --> team
+    router --> EnoFlagSink
     EnoEngine -->|send logs| EnoELK
     EnoEngine -->|send scoreboard data| EnoScoreboard
-    EnoEngine -->|plan checks| database 
+    EnoEngine -->|plan checks| database
+    database -->|get reports| EnoEngine
     EnoLauncher -->|run| checker1
-    EnoLauncher -->|run| checker2
-    EnoLauncher -->|run| checker3
+    EnoLauncher -->|report| database
+    EnoFlagSink --> database
     checker1 --> router
-    checker2 --> router
-    checker3 --> router
-    router --> team1
-    router --> team2
-    router --> EnoFlagSink
+    checker1 -->|send logs| EnoELK
 
 
 
     subgraph teams[Team Networks]
-        team1
-        team2
+        team[Team 1..N]
     end
 ```
 
+
+
+> TBD: [Specification](https://github.com/enowars/specification)
 
 --8<-- "includes/abbreviations.md"

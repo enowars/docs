@@ -101,10 +101,10 @@ extra_javascript:
 
 nav:
   - Home: index.md
-  - Play: play.md
-  - Setup:
-      - Installation: engine/engine.md
-      - Timing of a round: engine/round.md
+  - Infrastructure:
+      - Setup: infrastructure/infrastructure.md
+      - Installation: infrastructure/engine.md
+      - Timing of a round: infrastructure/round.md
   - Create a Service:
       - Getting started: service/getting-started.md
       - Tenets: service/tenets.md
@@ -112,3 +112,4 @@ nav:
       - Checker Development:
           - General: service/checker/checker.md
           - Python Checker: service/checker/checker-python.md
+  - Play: play.md
