@@ -105,11 +105,18 @@ nav:
       - Setup: infrastructure/infrastructure.md
       - Installation: infrastructure/engine.md
       - Timing of a round: infrastructure/round.md
+      - Testing: infrastructure/testing.md
   - Create a Service:
       - Getting started: service/getting-started.md
       - Tenets: service/tenets.md
       - Service Development: service/service.md
       - Checker Development:
           - General: service/checker/checker.md
+          - Testing: service/checker/testing.md
           - Python Checker: service/checker/checker-python.md
-  - Play: play.md
+          - Golang Checker: service/checker/checker-golang.md
+          - Dotnet Checker: service/checker/checker-dotnet.md
+          - Rust Checker: service/checker/checker-rust.md
+  - Play:
+     - General: play/general.md
+     - Service Status: play/service-status.md
