@@ -65,7 +65,7 @@ graph LR
 
 To access your vulnbox, you must first start it. This will only be possible once the competition has started. **Note that you must check in before the competition starts, otherwise you will not be able to start your vulnbox**.
 
-> Please refer to the [rules page](/docs/rules.md) for more information.
+> Please refer to the [rules page](rules.md) for more information.
 
 After the vulnbox is started, you will be shown your public vulnbox IP address and the root password which you can use to login. You will also be able to download an OpenVPN configuration file only after the vulnbox is started. See the section below for more details.
 
