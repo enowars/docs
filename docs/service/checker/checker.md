@@ -14,3 +14,6 @@ You can write it any language you like, but we provide some guidance for the fol
  - [Python](checker-python.md)
 
 --8<-- "includes/abbreviations.md"
+
+
+You can check whether you Checker is working with the [CLI](https://github.com/enowars/enochecker_cli).
