@@ -1,6 +1,6 @@
-mkdocs-material==7.1.5
-mkdocs-minify-plugin==0.4.0
-Pygments>=2.4
-markdown>=3.2
-pymdown-extensions>=7.0
-mkdocs-mermaid2-plugin==0.5.1
+mkdocs-material==9.1.12
+mkdocs-minify-plugin==0.6.4
+Pygments==2.15.1
+markdown==3.3.7
+pymdown-extensions==10.0.1
+mkdocs-mermaid2-plugin==0.6.0
