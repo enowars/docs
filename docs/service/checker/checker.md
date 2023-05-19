@@ -1,8 +1,6 @@
 # Checker Development
 
-> This page is still under construction.
-
-To learn how the checker fits into the overall repository structure, please review the [Getting Started Page](../../getting-started).
+To learn how the checker fits into the overall repository structure, please review the [Getting Started Page](../../getting-started). For more information on testing your checker and integrating it as part of the CI process, please review the [Testing Page](testing.md). You can find information on the [available libraries](#libraries) for implementing your checker at the end of the page.
 
 ## General Architecture and Core Concepts
 
@@ -34,24 +32,57 @@ One valid use case for using e.g. the `teamId` as a database id could be reusing
 
 ## Checker Methods
 
+There are six methods defined in the checker protocol. Five of them, namely `putflag`, `getflag`, `putnoise`, `getnoise` and `havoc`, are used during the CTF and have a direct influence on the score, where as the `exploit` method is used only for (automated) testing and not used during the CTF.
+
+For each of the different methods, there may be multiple variants. That means your checker might implement two different variants of `putflag` or `getflag` that store flags in different parts of the service. Ideally this should require the exploitation of different vulnerabilities, such that there are basically two different services within your service. In that case we speak of different "flag stores", which are also displayed on the scoreboard and are considered separately when identifying first bloods, meaning there is one first blood pre flag store and not just per service.
+
+When looking at `putnoise`, `getnoise` and `havoc`, multiple variants simply allow you to test additional functionality of your service. All tasks for `putnoise`, `getnoise` and `havoc` must succeed for the service of a team to be considered "up" and the team receiving SLA points. 
+
 ### Putflag/Getflag
+
+The `putflag` and `getflag` methods can be considered the core functionality of the checker. The `putflag` method is used to store a flag in the service, where as `getflag` is used to check if the flag is still present. Your checker must be able to handle multiple subsequent `getflag`-tasks for a single flag.
+
+Since the flag must be placed somewhere in the service where it is not publicly accessible, you usually have some form of credentials (e.g. username and password) generated in your `putflag`-task that you need to store. Usually you would want to use the [`taskChainId`](#task-chain) as identifier in your database for storing and retrieving those credentials.
+
+When implementing multiple variants for `putflag` and `getflag`, you must ensure that both methods have an equal number of variants. The corresponding `putflag` and `getflag` variants for the same flag store must have the same variant ids, i.e., the engine will call `getflag` with `variantId` 0 to check whether the flag deposited by the `putflag` task with `variantId` 0 ist still present.
+
+Depending on the design of your service, it might be useful to have some publicly available information giving the players a hint where the current flag can be found. For example, this could be the username of the account which was used to store the flag and should thus be considered the target of the exploits. Such information can be returned as `attackInfo` in your `putflag`-method. This `attackInfo` is always a string, so if you only provide the username you can simply return that, if you want to return more complex JSON objects you need to stringify them before returning them. How you lay out the `attackInfo` (and if you provide `attackInfo` at all) is up to you as the service author to decide. In general, if, without `attackInfo`, the attackers would need to enumerate a large number of entries, causing high load to the service, it is a good idea to include `attackInfo`.
+
+It can be assumed that, when enumerating all accounts/entries is theoretically possible, simply providing `attackInfo` reduces the load and makes the life easier for the attackers, the defenders and you as the organizer who needs to provide the network infrastructure. If finding the correct target to attack is part of your vulnerability/exploit somehow and providing `attackInfo` would take that away, you would probably not want to provide any information.
 
 ### Putnoise/Getnoise
 
+The `putnoise` and `getnoise` methods are quite similar to `putflag` and `getflag`, so most things mentioned in the previous chapter apply here as well.
+
+The key difference is that noise, unlike the flag, is not considered secret and thus might be stored in publicly available places. It just needs to be stored somewhere, where it can be retrieved later on. Unlike with flags, you can also use two different variants to store noise in the same location and place/retrieve it there using different methods (of course, whether this is possible or not depends on your service).
+
+Since the noise is not intended to be exploited, the `putnoise` task does not have anything equivalent to `attackInfo`.
+
 ### Havoc
+
+The `havoc` method can be used to test any functionality that is not covered by `putflag`/`getflag` or `putnoise`/`getnoise`. Unlike the other methods which are pairs of `put` and `get` and thus need to store information somewhere, each `havoc` is completely independent and thus you do not need to store any information in the service or checker.
+
+You are of course free to reuse e.g. accounts from earlier `havoc`-tasks whose credentials you store in the checker database, however, the absence of such accounts MUST NOT lead to the `havoc` failing.
 
 ### Exploit
 
+The `exploit` method is only used for testing purposes and will not be used during the CTF. By implementing this method, you are able to "prove" that your service can actually be exploited. This is especially useful as part of the CI process, to avoid accidentally "breaking" a vulnerability leading to an unexploitable service.
+
+You can also implement multiple variants of the exploit method and also multiple variants for a single flag store. In some cases there are multiple vulnerabilities that allow retrieving a flag from the same flag store, in which case you should implement one exploit variant per vulnerability/exploit chain.
+
+To actually "prove" that the exploit method is working, it needs to return a flag as the result of the task. Since there might be multiple flags that are exploitable with a single exploit, the caller provides a `flagHash` which is the hex-encoded SHA256-hash of the flag the caller wishes to retrieve. It is the caller's responsibility to place the flag there and provide the `attackInfo` if available.
+
+When using `enochecker_test` for [testing](testing.md), `enochecker_test` first issues a `putflag` task with a newly generated flag. It then passes the `attackInfo` returned by the `putflag` and the hash of the flag as `flagHash` to the `exploit`-task. Most libraries include some convenience mechanism for dealing with the `flagHash`, e.g. the `FlagSearcher` in [`enochecker3`](https://github.com/enowars/enochecker3), which takes `str` or `bytes` as input and checks whether any of the plain text flags included in that input match the hash.
+
+To allow the `exploit`-method to identify the flags matching the flag format in the data returned by the service, there is the argument `flagRegex`, which is a regular expression describing the format of the flag. This `flagRegex` is e.g. used internally by the `FlagSearcher` to identify the flags in the input passed to it.
+
+For more details on how the `exploit`-method is used by the automated testing procedure with `enochecker_test`, please review the [testing chapter](testing.md).
+
+Please note that some tools, most notably [`enochecker_cli`](https://github.com/enowars/enochecker_cli), provide convenience mechanisms for working with the `flagHash`. `enochecker_cli` expects the plain flag (passed in using `--flag`) as input and calculates the hash of the flag internally before issuing the request to the checker. This makes issuing subsequent `putflag`- and `exploit`-tasks during testing much easier, since you can simply leave the `--flag` from your `putflag`-call as is when changing the method to `exploit`.
+
 ## Libraries
 
-Your checker must be startable via
-```bash
-docker-compose up -f docker-compose.yml
-```
-
-It must conform the specifications.
-
-You can write it any language you like, but we provide some guidance for the following: 
+You can write the checker in any language you like, but we provide some guidance for the following: 
 
 - [Python](checker-python.md)
 
@@ -61,7 +92,6 @@ There are also libraries for the following languages, but they are not covered e
 - [Golang](checker-golang.md)
 - [Rust](checker-rust.md)
 
+You could write your checker in other languages by creating your own implementation of the [checker protocol specification](https://github.com/enowars/specification/blob/main/checker_protocol.md), but then you are responsible for ensuring the stability of the checker library in addition to your actual service and checker implementation.
+
 --8<-- "includes/abbreviations.md"
-
-
-You can check whether you Checker is working with the [CLI](https://github.com/enowars/enochecker_cli).
