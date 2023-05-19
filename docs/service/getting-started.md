@@ -30,6 +30,9 @@ When it comes to the contents of the directory, you are pretty free in how you l
 3. You **MUST** create a `.env`-in your `service` directory in which you set `COMPOSE_PROJECT_NAME=your_chosen_name_service`, e.g. `COMPOSE_PROJECT_NAME=n0t3b00k_service` if your service is called `n0t3b00k`. Otherwise docker compose might have issues when creating the networks, since it uses the directory name (in this case `service`) as prefix for the created networks, which might cause collisions with other services running on the same machine.
 4. You **MUST** coordinate your published ports with the other service authors to avoid port collisions when starting two services on one vulnbox.
 
+
+For a concise list of requirements or conventions that your service must or should follow, please review the [tenets](../tenets/). For some more tips and explanations to help you with your service development, checkout the [service development](../service/) chapter.
+
 ### Checker
 
 The checker stores the flags in your service, retrieves them and checks whether your service works as intended.
